@@ -96,7 +96,26 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass
+        #attempting with dictionary of traversal arrays
+
+        path_from_start = {}
+        q = Queue()
+        q.enqueue(starting_vertex)
+        path_from_start[starting_vertex] = [starting_vertex]
+        visited = [starting_vertex]
+
+        while q.size() > 0:
+            for vertex in self.vertices[q.queue[0]]:
+                if vertex not in visited:
+                    q.enqueue(vertex)
+                    path_from_start[vertex] = path_from_start[q.queue[0]] + [vertex]
+                    visited.append(vertex)
+                if vertex == destination_vertex:
+                    return path_from_start[vertex]
+            q.dequeue()
+
+        return None
+
         
 
     def dfs(self, starting_vertex, destination_vertex):
@@ -194,10 +213,8 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
     '''
     print("Breadth first search:")
-    print("\n\n\n")
     print("\n Result should be: [1, 2, 4, 6] \n")
     print(graph.bfs(1, 6))
-    print("\n\n\n")
 
     '''
     Valid DFS paths:
