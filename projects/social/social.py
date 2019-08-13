@@ -1,8 +1,9 @@
 import random
-
+from util import Queue
 class User:
     def __init__(self, name):
         self.name = name
+        self.id = None
 
 class SocialGraph:
     def __init__(self):
@@ -29,6 +30,7 @@ class SocialGraph:
         self.lastID += 1  # automatically increment the ID to assign the new user
         self.users[self.lastID] = User(name)
         self.friendships[self.lastID] = set()
+        self.users[self.lastID].id = self.lastID
 
     def populateGraph(self, numUsers, avgFriendships):
         """
@@ -74,6 +76,19 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        q = Queue()
+
+        q.enqueue(userID)
+
+        visited[userID] = [userID]
+
+        while q.size() > 0:
+            for friendID in self.friendships[q.queue[0]]:
+                if friendID not in visited:
+                    visited[friendID] = visited[q.queue[0]] + [friendID]
+                    q.enqueue(friendID)
+            q.dequeue()
         return visited
 
 
