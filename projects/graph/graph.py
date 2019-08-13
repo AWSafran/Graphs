@@ -108,6 +108,8 @@ class Graph:
             for vertex in self.vertices[q.queue[0]]:
                 if vertex not in visited:
                     q.enqueue(vertex)
+                    # We get to any node by going from its "parent" to itself
+                    # So we just add a node to it's parent's path
                     path_from_start[vertex] = path_from_start[q.queue[0]] + [vertex]
                     visited.append(vertex)
                 if vertex == destination_vertex:
