@@ -17,11 +17,14 @@ class SocialGraph:
         """
         if userID == friendID:
             print("WARNING: You cannot be friends with yourself")
+            return False
         elif friendID in self.friendships[userID] or userID in self.friendships[friendID]:
             print("WARNING: Friendship already exists")
+            return False
         else:
             self.friendships[userID].add(friendID)
             self.friendships[friendID].add(userID)
+            return True
 
     def addUser(self, name):
         """
@@ -53,16 +56,35 @@ class SocialGraph:
         for i in range(0, numUsers):
             self.addUser(str(i))
 
-        possible_friendships = []
-        for user in self.users:
-            for friend in range(user + 1, self.lastID + 1):
-                possible_friendships.append((user, friend))
+        # possible_friendships = []
+        # for user in self.users:
+        #     for friend in range(user + 1, self.lastID + 1):
+        #         possible_friendships.append((user, friend))
 
 
-        selected_friendships = random.sample(possible_friendships, (numUsers * avgFriendships) // 2)
+        # selected_friendships = random.sample(possible_friendships, (numUsers * avgFriendships) // 2)
 
-        for friendship in selected_friendships:
-            self.addFriendship(friendship[0], friendship[1])
+        #Our User ID starts at 1, not 0
+        for i in range(1, numUsers):
+            # randomly assign friends - number is random that should average to avgFriendships
+            num_friends = random.randint(0, 2 * avgFriendships)
+            friend_count = len(self.friendships[i])
+            failed_friendships = 0
+            while friend_count < num_friends:
+                
+                #modified addFriendships to return false if invalid friendship
+                #Only indrement friend counter if we created a valid friendship
+                if self.addFriendship(i, random.randint(i, numUsers)):
+                    friend_count += 1
+                else:
+                    failed_friendships += 1
+
+                if failed_friendships > 5:
+                    break
+
+
+        # for friendship in selected_friendships:
+        #     self.addFriendship(friendship[0], friendship[1])
         # Create friendships
 
     def getAllSocialPaths(self, userID):

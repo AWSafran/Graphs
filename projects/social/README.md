@@ -48,7 +48,11 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `addFriendship()`? Why?
 
+`You would make 500 calls to addFriendship(). In total, 1000 friendships need to be created, but each call creates two friendships (one each direction), meaning it needs to be called half as many times`
+
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+
+`If the friendships are truly random, it is impossible to tell for sure what percent of users will be in their network. At most, 625 users could be within 4 degrees of separation from the start user, and adding another degree could allow for up to 3125 users`
 
 
 
@@ -56,5 +60,9 @@ Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social n
 
 1. You might have found the results from question #2 above to be surprising. Would you expect results like this in real life? If not, what are some ways you could improve your friendship distribution model for more realistic results?
 
+`In real life, friendships are not random. People tend to become friends with other people in their network, or their existing friends' networks. The model could be made more accurate by assigning friendships with a bias towards other users that `
+
 2. If you followed the hints for part 1, your `populateGraph()` will run in O(n^2) time. Refactor your code to run in O(n) time. Are there any tradeoffs that come with this implementation?
+
+`One tradeoff of the implementation i used is the chance of valid friendships. I added a workaround to try again if a friendship is invalid, but this could create infinite loops if the number of potential valid friendships is reached. I also added a counter so that if a user has 5 invalid friendship attempts, the loop will break and move on to the next friend (if applicable)`
 
